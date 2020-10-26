@@ -1,0 +1,230 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}  % set the margins to 1in on all sides
+\usepackage{graphicx}              % to include figures
+\usepackage{amsmath}               % great math stuff
+\usepackage{amsfonts}              % for blackboard bold, etc
+\usepackage{amsthm}                % better theorem environments
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{verbatim}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{amsthm,amssymb}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+
+\DeclareMathOperator{\id}{id}
+\newcommand{\ds}[1]{\displaystyle{#1}}  % for bolding symbols
+\newcommand{\bd}[1]{\mathbf{#1}}  % for bolding symbols
+\newcommand{\RR}{\mathbb{R}}      % for Real numbers
+\newcommand{\ZZ}{\mathbb{Z}}      % for Integers
+\newcommand{\col}[1]{\left[\begin{matrix} #1 \end{matrix} \right]}
+\newcommand{\comb}[2]{\binom{#1^2 + #2^2}{#1+#2}}
+\usepackage[hidelinks]{hyperref}
+
+\begin{document}
+\title{Bernoulli Numbers}
+\author{Miliyon T.}%\href{https://www.blogger.com/profile/06906614246430481533}{(Larry's Note)}}
+\maketitle
+\tableofcontents
+\begin{abstract}
+  Bernoulli numbers\footnote{Discovered by Jacob Bernoulli($1654-1705$) and discussed by him in a posthumous work \textit{Ars Conjectandi}(1713).} are a key figure in number theory. They are extremely useful in understanding Riemann Zeta function. %Despite there are many characterization of Bernoulli numbers we will see only recursive equation in which we will use pascals' Triangle.
+\end{abstract}
+\section{Introduction}
+
+\begin{defn}\label{defb}
+The Bernoulli numbers\footnote{By convention if $B_1=\frac{-1}{2}$, the given Bernoulli sequence is called \textbf{first Bernoulli numbers} and \textbf{second Bernoulli numbers} if $B_1=\frac{1}{2}$.} are defined by the recursive formula
+
+\begin{align}\label{eq:def}
+\sum_{k=0}^{n-1}\binom{n}{k}B_k=0,\quad \mbox{where }\quad  B_0=1
+\end{align}
+\end{defn}
+Expanding (\ref{eq:def}) shows their relation to the Pascal's triangle.
+\begin{align*}
+B_0&=1\\
+B_2+2B_1+1&=B_2\\
+B_3+3B_2+  3B_1+1&=B_3\\
+B_4  +4B_3+6B_2+  4B_1+1&=B_4\\
+B_5+5B_4  +10B_3+10B_2+ 5B_1+1&=B_5\\
+B_6+ 6B_5+ 15B_4+ 20B_3+ 15B_2+ 6B_1+1&=B_6\\
+B_7+7B_6+21B_5+35B_4+35B_3+21B_2+7B_1+ 1&=B_7\\
+&\vdots
+\end{align*}
+
+\section{How to Compute $B_n$'s}
+Using Definition \ref{defb}, we can easily show the first few Bernoulli numbers to be
+\begin{align*}
+B_0=1,\quad B_1=\frac{-1}{2},\quad B_2=\frac {1}{6},\quad B_3 = 0,\quad B_4 =\frac{-1}{30},\quad B_5 = 0,\quad B_6 =\frac{1}{42},\cdots
+\end{align*}
+Note that $B_3$ and $B_5$ are both zero. In fact, this is a well known result about Bernoulli numbers; $B_n=0$ whenever $n$ is odd with exception when $n=1$.
+\section{Some Facts}
+\begin{lem}[Binomial Convolution]\label{lembc}
+Let $\ds f(z)=\sum_{n\ge0}\frac{a_n}{n!}z^n,\ g(z)=\sum_{n\ge0}\frac{b_n}{n!}z^n$ and $h(z)=f(z)g(z)$.
+Then there exists $d_n$ such that
+\begin{align*}
+h(z)=\sum_{n\ge0}\frac{d_n}{n!}z^n,\quad \text{where}\quad d_n=\sum_{k=0}^{n}\binom{n}{k}a_{k}b_{n-k}
+\end{align*}
+\end{lem}
+\begin{proof}
+Multiplying $f(z)$ and $g(z)$ term by term gives us
+\begin{align*}
+\biggl(\frac{a_0}{0!}z^0+\frac{a_1}{1!}z^1+\frac{a_2}{2!}z^2+\cdots\biggl)\biggl(\frac{b_0}{0!}z^0+\frac{b_1}{1!}z^1+\frac{b_2}{2!}z^2+\cdots\biggl)
+\end{align*}
+After expanding and regrouping we will get
+\begin{align}\label{two}
+\frac{a_0b_0}{0!0!}z^0+\biggl(\frac{a_0b_1}{0!1!}+\frac{a_1b_0}{1!0!}\biggl)z^1+\biggl(\frac{a_0b_2}{0!2!}+
+\frac{a_1b_1}{1!1!}+\frac{a_2b_0}{2!0!}\biggl)z^2+\cdots
+\end{align}
+If we let $c_n$ to be the coefficient of $z^n$. For example $c_0=\frac{a_0b_0}{0!0!}$. Then we have the following formula
+\begin{align}\label{three}
+c_n=\sum_{k=0}^{n}\frac{a_kb_{n-k}}{k!(n-k)!}
+\end{align}
+Using (\ref{two}) and (\ref{three}) we write $h(z)$ as the following sum
+\begin{align}\label{five}
+h(z)=\sum_{n\ge0}c_nz^n
+\end{align}
+Now let's define a value $d_n$ such that
+\begin{align*}
+d_n&=n!c_n=n!\sum_{k=0}^{n}\frac{a_kb_{n-k}}{k!(n-k)!}\\
+&=\sum_{k=0}^{n}\frac{n!a_kb_{n-k}}{k!(n-k)!}\\
+&=\sum_{k=0}^{n}\binom{n}{k}a_kb_{n-k}
+\end{align*}
+This gives us that
+\begin{align}\label{six}
+\frac{d_n}{n!}=c_n
+\end{align}
+Substituting (\ref{six}) into (\ref{five}) completes the proof.
+%\begin{align*}
+%h(z)=\sum_{n\ge0}\frac{d_n}{n!}z^n,\qquad \text{ with } d_n=\sum_{k=0}^{n}\binom{n}{k}a_{k}b_{n-k}
+%\end{align*}
+\end{proof}
+
+\section{Generating function}
+The following theorem provides a generating function for the Bernoulli numbers.\footnote{They were invented in $1718$ by French mathematician Abraham De Moivre (1667–1754)[\ref{koshy}].}
+\begin{thm}\label{thmg}%[Generating function for Bernoulli Numbers]
+The function
+\begin{align*}
+G(z)=\frac{z}{e^z-1}
+\end{align*}
+is a generating function for Bernoulli numbers.
+\end{thm}
+
+\begin{proof}
+Let
+\begin{align*}
+G(z)=\sum_{n\ge0}\frac{B_n}{n!}z^n,
+\end{align*}
+where $B_n$ stands for the $n^{th}$ Bernoulli number. Multiplying both sides of the above equation by $e^z$ gives
+\begin{align}
+e^zG(z)&=\sum_{n\ge0}\frac{z^n}{n!}\cdot\sum_{n\ge0}\frac{B_n}{n!}z^n\nonumber\\
+&=\sum_{n\ge0}\biggl( \sum_{k=0}^{n}\binom{n}{k}B_k\biggl)\frac{z^n}{n!}\qquad \text{ by Lemma } \ref{lembc} \label{res}
+\end{align}
+By our definition of the Bernoulli number in (\ref{eq:def})
+\begin{align*}
+\sum_{k=0}^{n-1}\binom{n}{k}B_k=0,\quad \mbox{where }\quad  B_0=1
+\end{align*}
+If we add $B_n$ to both sides, then we have
+\begin{align}
+\sum_{k=0}^{n-1}\binom{n}{k}B_k+B_n=\sum_{j=0}^{n}\binom{n}{j}B_j=B_n,
+\end{align}
+or we would get $B_n+1$ in the case where $n=1$. This enables us to simplify the result in (\ref{res}) to get
+\begin{align}\label{eq:12}
+e^zG(z)=z+\sum_{n\ge0}B_n\frac{z^n}{n!}=z+G(z)
+\end{align}
+Note that the $z$ at the right side of (\ref{eq:12}) comes from the fact that at $n=1$, our result is
+\[
+(B_1+1)\frac{z^1}{1!}=\frac{B_1}{1!}z^1+z
+\]
+If we subtract $G(z)$ from both sides, we get
+\begin{align*}
+e^zG(z)-G(z)=z\\
+(e^z-1)G(z)=z
+\end{align*}
+Dividing the last equation by $e^z-1$ yields the desired result.
+\begin{align}
+G(z)=\frac{z}{e^z-1}
+\end{align}
+\end{proof}
+\section{Why the  odds vanish?}
+\begin{cor}
+For odd integer $n$ different from $n=1$, $B_n=0$. i.e. 
+\[
+B_{2i+1}=0\quad \mbox{if}\quad  i\ge1.
+\]
+\end{cor}
+\begin{proof}
+From Theorem \ref{thmg} we have
+\begin{align*}
+\frac{z}{e^z-1}=\sum_{n\ge0}B_n\frac{z^n}{n!}=\sum_{\substack{n\ge1\\{n\neq 1}}}B_n\frac{z^n}{n!}+\frac{B_1z}{1!}
+\end{align*}
+Then using the fact that $B_1=-1/2$, we have the following equation
+\begin{align}\label{iden}
+\sum_{\substack{n\ge1\\{n\neq 1}}}B_n\frac{z^n}{n!}=\frac{z}{e^z-1}+\frac{z}{2}
+\end{align}
+Now, look closely at the following algebraic simplification
+\begin{align*}
+\frac{z}{e^z-1}+\frac{z}{2}&=\frac{2z+z(e^z-1)}{2(e^z-1)}\\
+&=\biggl(\frac{z}{2}\biggl)\frac{(e^z+1)}{(e^z-1)}\\
+&=\biggl(\frac{z}{2}\biggl)\frac{(e^z+1)}{(e^z-1)}*\biggl(\frac{e^{-z/2}}{e^{-z/2}}\biggl)\\
+&=\biggl(\frac{z}{2}\biggl)\biggl(\frac{e^{z/2}+e^{-z/2}}{e^{z/2}-e^{-z/2}}\biggl)
+\end{align*}
+If we replace $z$ by $-z$ in the last equation, the expression remain unchanged i.e.
+\begin{align*}
+\biggl(\frac{-z}{2}\biggl)\biggl(\frac{e^{-z/2}+e^{-(-z/2)}}{e^{-z/2}-e^{-(-z/2)}}\biggl)=\biggl(\frac{-z}{2}\biggl)
+\biggl(\frac{e^{-z/2}+e^{z/2}}{e^{-z/2}-e^{z/2}}\biggl)=\biggl(\frac{z}{2}\biggl)\biggl(\frac{e^{z/2}+e^{-z/2}}{e^{z/2}
+-e^{-z/2}}\biggl)
+\end{align*}
+Hence, the function $\frac{z}{e^z-1}-\frac{z}{2}$ is an even function. But this means that the same must hold true for $ \sum_{\substack{n\ge1\\{n\neq 1}}}B_n\frac{z^n}{n!}$. Since in (\ref{iden}), we showed that they are equal functions. So that we have
+
+\begin{align*}
+\sum_{\substack{n\ge1\\{n\neq 1}}}B_n\frac{z^n}{n!}=\sum_{\substack{n\ge1\\{n\neq 1}}}B_n\frac{(-z)^n}{n!}=\sum_{\substack{n\ge1\\{n\neq 1}}}(-1)^nB_n\frac{z^n}{n!}
+\end{align*}
+Matching up each of the terms according to powers of $z^n$, this gives us
+\begin{align*}
+B_n=(-1)^nB_n
+\end{align*}
+Thus, $B_n=0$, whenever $n$ is odd. Since we have excluded the case $n=1$, we conclude that
+\begin{align*}
+B_{2i+1}=0 \text{ if } i\ge1.
+\end{align*}
+\end{proof} 
+
+\section{Simple but Elegant Application}
+\subsection{Faulhaber's Formula}
+
+\begin{align}
+\sum_{k=0}^{m-1}k^n=\frac{1}{n+1}\sum_{k=0}^{n}\binom{n+1}{k}B_k m^{n+1-k}
+\end{align}
+
+\subsection*{Acknowledgments}  It is a pleasure to thank my mentor.
+
+\begin{thebibliography}{9}
+
+\bibitem{amsshort}
+Ronald L. Graham, Donald E. Knuth, Oren Patashnik, Concrete Mathematics, Addison-Wesley, 1989.
+
+\bibitem{May}
+Martin Aigner and G\"{u}nter M. Ziegler,
+\emph{Proofs from THE BOOK}, Springer, 4th ed, 2009.
+
+\bibitem{notsoshort}
+G. H. Hardy and M. Wright
+\emph{An Introduction to  the  Theory of Numbers},
+6th ed, 2008.
+
+\bibitem{June}
+John H. Conway and Richard K. Guy
+The Book of Numbers (1996).
+
+\bibitem{soshort}\label{koshy}
+[Thomas Koshy] Catalan numbers with Application pp. 382.
+
+\end{thebibliography}
+
+\end{document}
